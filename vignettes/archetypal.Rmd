@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Archetypal Package"
 author: "Demetris T. Christopoulos"
-date: "7/6/2019"
+date: "17/12/2019"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
@@ -22,6 +22,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 library(archetypal)
+library(rmarkdown)
 knitr::opts_chunk$set(echo = TRUE)
 options(max.width = 1000)
 options(max.print = 100000)
@@ -52,7 +53,7 @@ $$
 with SST the total sum of squares for elements of Y.
 
 It is a suitable modification of PCHA algorithm, see [1], [2], which uses data frames without transposing them
-and has full control to all external and internal parameteres of it.
+and has full control to all external and internal parameters of it.
 
 ## Compute AA for a data frame
 
@@ -90,7 +91,7 @@ The above mentioned data frame "df" can be loaded as:
 Since number of archetypes is kappas=3 due to the construction we run "archetypal" function with three archetypes:
 
 ```{r run2D, echo=TRUE}
-aa=archetypal(df=df,kappas = 3,verbose = TRUE,rseed=9102,save_history = TRUE)
+aa = archetypal(df = df, kappas = 3, verbose = TRUE, rseed = 9102, save_history = TRUE)
 ```
 What is the result? A list with names:
 
@@ -106,11 +107,11 @@ More specifically:
 
 3. initialsolution gives the rows that were used as initial points in algorithm
 
-4. freqstable is a frequncy table for all candidate initial points found
+4. freqstable is a frequency table for all candidate initial points found
 
 5. iterations are the number of main iterations done by algorithm
 
-6. time is the seconds ellapsed for the entire process
+6. time is the seconds elapsed for the entire process
 
 7. converges is a TRUE/FALSE flag to inform us if convergence criteria were achieved before the maximum iterations
 (default=2000) reached
@@ -125,7 +126,7 @@ More specifically:
   
 
 
-The archetypes are indeed on the outer boundary, more precicely they form a principal convex hull of data points:
+The archetypes are indeed on the outer boundary, more precisely they form a principal convex hull of data points:
 
 ```{r archplot, echo=FALSE,out.width='75%', fig.align='center',fig.width=10, fig.height=6}
 plot(dp,pch=3,cex=2,xlab='x',ylab='y',xlim=c(min(dp[,1])-0.25,max(dp[,1])+0.25),ylim=c(min(dp[,2])-0.25,max(dp[,2])+0.25))
@@ -152,7 +153,7 @@ data points and what are the relevant used weights for that task:
 
 ```{r checkB, echo=TRUE}
 BB=aa$B
-yy=check_Bmatrix(B=BB,print.details = TRUE)
+yy=check_Bmatrix(B = BB, chvertices = NULL, verbose = TRUE)
 # yy$used_rows
 # yy$used_weights
 ```
@@ -191,10 +192,10 @@ the first points of every list element, so it is reasonable to try as initial so
 
 ```{r run2Dinitial, echo=TRUE}
 aa2=archetypal(df=df,kappas = 3,initialrows =  c(34,62,86), verbose = TRUE,rseed=9102,save_history = TRUE)
-yy2=check_Bmatrix(aa2$B,print.details = TRUE)
+yy2=check_Bmatrix(aa2$B,verbose = TRUE)
 ```
 
-The same solution as before, but with 44 instead of 63 ierations!
+The same solution as before, but with 44 instead of 63 iterations!
 
  * **Rule of thumb:** If initial points are close to exact CH vertices, then algorithm runs faster
 
@@ -224,21 +225,21 @@ The above data frame (without the generating edges) can be loaded as:
 # df=wd3
 ```
 
-(Data frames are equal at least untill the 16th decimal point.)
+(Data frames are equal at least until the 16th decimal point.)
 
 We run "archetypal" function with kappas=4 (due to the construction procedure) and then we also check the final B matrix:
 
 ```{r run3D, echo=TRUE}
-aa3=archetypal(df=df,kappas = 4,verbose = TRUE,rseed=9102,save_history = TRUE)
-yy3=check_Bmatrix(aa3$B)
+aa3 = archetypal(df = df, kappas = 4, verbose = TRUE, rseed = 9102, save_history = TRUE)
+yy3 = check_Bmatrix(aa3$B)
 ```
 Well done, but can we work with less iterations?
 Lets choose the greatest weighted points from the finally used and then run "archetypal" with those "initialrows":
 
 ```{r run3DuseBetas, echo=TRUE}
-irows=sapply(yy3$used_rows, function(x){x[1]});irows
-aa4=archetypal(df=df,kappas = 4,initialrows = irows,verbose = TRUE,rseed=9102,save_history = TRUE)
-yy4=check_Bmatrix(aa4$B)
+irows=yy3$leading_rows
+aa4 = archetypal(df = df, kappas = 4, initialrows = irows, verbose = TRUE, rseed = 9102, save_history = TRUE)
+yy4 = check_Bmatrix(aa4$B)
 ```
 Yes, we obtained a reduction of $33\%$ in iterations with exactly the same results and SSE, varexpl.
 
@@ -285,7 +286,7 @@ This is a method that can be used for all type of data frames, despite the numbe
 That is the reason for being the default option in "method" used for finding initial solution.
 
 ```{r find1, echo=TRUE}
-yy1=find_outmost_projected_convexhull_points(df,kappas=4)
+yy1 = find_outmost_projected_convexhull_points(df, kappas = 4)
 yy1$outmost
 yy1$outmostall
 yy1$outmostall%in%ch
@@ -295,7 +296,7 @@ This method actually can be used for data frames with $d\leq\,6$ variables, see 
 But if it can be used, it gives the best results due to the PCHA theory, see [1] for details.
 
 ```{r find2, echo=TRUE}
-yy2=find_outmost_convexhull_points(df,kappas=4)
+yy2 = find_outmost_convexhull_points(df, kappas = 4)
 yy2$outmost
 yy2$outmostall
 yy2$outmostall%in%ch
@@ -307,7 +308,7 @@ then it computes CH for each set and makes the union of vertices. Finally it com
 (We avoid running because it uses parallel computing. Please check your machine and then run it.)
 
 ```{r find3, echo=TRUE}
-# yy3=find_outmost_partitioned_convexhull_points(df,kappas=4,nworkers = 10)
+# yy3 = find_outmost_partitioned_convexhull_points(df, kappas = 4, nworkers = 10)
 # yy3$outmost
 # yy3$outmostall
 # yy3$outmostall%in%ch
@@ -325,7 +326,7 @@ The most frequent ones are used as initial solution.
 (We don't run for same reasons as Partitioned Convex Hull).
 
 ```{r find4, echo=TRUE}
-# yy4=find_furthestsum_points(df, kappas=4, nfurthest = 100, nworkers = 10,sortrows = TRUE)
+# yy4 = find_furthestsum_points(df, kappas = 4, nfurthest = 100, nworkers = 10, sortrows = TRUE)
 # yy4$outmost
 # yy4$outmostall
 # yy4$outmostall%in%ch
@@ -339,7 +340,7 @@ Keep in mind that for a data frame with dimensions $n\times\,d$ you'll need $\fr
 so use it with caution!
 
 ```{r find5, echo=TRUE}        
-yy5=find_outmost_points(df,kappas=4)
+yy5 = find_outmost_points(df, kappas = 4)
 yy5$outmost
 yy5$outmostall
 yy5$outmostall%in%ch
@@ -353,7 +354,7 @@ computing CH is not a feasible process when number of variables increases. Actua
 meaningful to directly compute it.
 
 
-## Please send your comments, suggestions or bugs found to dchristop@econ.uoa.gr
+## Please send your comments, suggestions or bugs found to <dchristop@econ.uoa.gr> or <dem.christop@gmail.com>
 
 
 ## References
