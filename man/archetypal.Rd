@@ -97,6 +97,7 @@ A list with members:
 }
 }
 \examples{
+{\donttest{
 # Create a small 2D data set from 3 corner-points:
 p1 = c(1,2);p2 = c(3,5);p3 = c(7,3) 
 dp = rbind(p1,p2,p3);dp
@@ -118,6 +119,8 @@ names(aa)
 aa[c("SSE","varexpl","iterations","time")]
 # See history of iterations:
 names(aa$run_results)
+}
+}
 }
 \references{
 

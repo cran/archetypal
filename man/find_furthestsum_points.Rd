@@ -36,7 +36,7 @@ A list with members:
 \examples{
 data("wd3") #3D demo 
 df = wd3
-yy = find_furthestsum_points(df, kappas = 4, nfurthest = 10, nworkers = 1)
+yy = find_furthestsum_points(df, kappas = 4, nfurthest = 10, nworkers = 2)
 yy$outmost
 yy$outmostall
 yy$outmostfrequency

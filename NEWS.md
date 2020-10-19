@@ -1,3 +1,8 @@
+# archetypal 1.1.1 (2020-10-09)
+
+* fix a bug for OS r-patched-solaris-x86
+
+
 # archetypal 1.1.0 (2020-01-27) - major update
 
 ## New functions

@@ -32,7 +32,7 @@ A list with members:
 \examples{
 data("wd2") #2D demo 
 df = wd2
-yy = find_outmost_partitioned_convexhull_points(df, kappas = 3, nworkers = 1)
+yy = find_outmost_partitioned_convexhull_points(df, kappas = 3, nworkers = 2)
 yy$outmost #the rows of 3 outermost points
 df[yy$outmost,] #the 3 outermost points
 yy$outmostall #all outermost rows
