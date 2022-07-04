@@ -106,7 +106,7 @@ Other contributors:
 [1] M Morup and LK Hansen, "Archetypal analysis for machine learning and data mining", Neurocomputing (Elsevier, 2012).
  https://doi.org/10.1016/j.neucom.2011.06.033.
 
-[2] Source: http://www.mortenmorup.dk/index_files/Page327.htm , last accessed 2019-06-07
+[2] Source: https://www.mortenmorup.dk/MMhomepageUpdated_files/Page327.htm , last accessed 2021-09-23
 
 [3] Christopoulos, Demetris T., Introducing Unit Invariant Knee (UIK) As an Objective Choice for
  Elbow Point in Multivariate Data Analysis Techniques (March 1, 2016). 

@@ -1,5 +1,5 @@
 Package: archetypal
-Version: 1.1.1
+Version: 1.3.0
 Title: Finds the Archetypal Analysis of a Data Frame
 Description: Performs archetypal analysis by using Principal Convex Hull Analysis 
     under a full control of all algorithmic parameters. 
@@ -12,7 +12,8 @@ Description: Performs archetypal analysis by using Principal Convex Hull Analysi
     Barber, CB, Dobkin, DP, Huhdanpaa, HT (1996) <doi:10.1145/235815.235821>.    
     Christopoulos, DT (2016) <doi:10.2139/ssrn.3043076>.    
     Falk, A., Becker, A., Dohmen, T., Enke, B., Huffman, D., Sunde, U. (2018), <doi:10.1093/qje/qjy013>. 
-    Christopoulos, DT (2015) <doi:10.1016/j.jastp.2015.03.009> .    
+    Christopoulos, DT (2015) <doi:10.1016/j.jastp.2015.03.009> .  
+    Murari, A., Peluso, E., Cianfrani, Gaudio, F., Lungaroni, M., (2019), <doi:10.3390/e21040394>.    
 Authors@R: c(
              person("Demetris", "Christopoulos", email = "dchristop@econ.uoa.gr", role = c("aut", "cre")),
              person("David", "Midgley", email = "david.midgley@insead.edu", role = c("ctb")),
@@ -22,7 +23,7 @@ Authors@R: c(
 Maintainer: Demetris Christopoulos <dchristop@econ.uoa.gr>
 Depends: R (>= 3.1.0)
 Imports: Matrix, geometry, inflection, doParallel, lpSolve, methods,
-        plot3D
+        plot3D, entropy
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 License: GPL (>= 2)
@@ -30,10 +31,10 @@ Encoding: UTF-8
 LazyData: true
 ByteCompile: true
 NeedsCompilation: no
-Packaged: 2020-10-19 07:13:00 UTC; demetris_ws
+Packaged: 2022-07-04 10:21:26 UTC; demetris_ws
 Author: Demetris Christopoulos [aut, cre],
   David Midgley [ctb],
   Sunil Venaik [ctb],
   INSEAD Fontainebleau France [fnd, cph]
 Repository: CRAN
-Date/Publication: 2020-10-19 17:10:07 UTC
+Date/Publication: 2022-07-04 12:30:02 UTC

@@ -1,3 +1,24 @@
+# archetypal 1.3.0 (2022-07-04) - major update
+
+## New S3 classes
+
+* `print.archetypal()` It prints the output of archetypal()
+* `summary.archetypal()` It gives a summary for the output of archetypal()
+* `plot.archetypal()` It makes a plot of the archetypes creating after using archetypal()
+* `plot.kappa_tools()` It makes a plot of the results created after using kappa_tools()
+* `plot.study_AAconvergence()` It makes a plot of the results created after using 
+study_AAconvergence()
+
+## New functions
+
+* `plot_archs()` plots a matrix or data frame of archetypes
+
+# archetypal 1.2.1 (2021-11-19)
+
+## New functions
+
+* `kappa_tools()` computes a set of proxies for the dimensionality 
+
 # archetypal 1.1.1 (2020-10-09)
 
 * fix a bug for OS r-patched-solaris-x86
@@ -31,4 +52,3 @@ using algorithm PCHA.
 * `check_Bmatrix` changes its `print.details` argument to `verbose`.
 * `find_furthestsum_points` changes its `nworkers = 10` argument to `nworkers = NULL` and has new argument  `doparallel`.
 * `align_archetypes_from_list` has a new argument `verbose`.
-

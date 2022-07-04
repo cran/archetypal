@@ -12,7 +12,8 @@ archetypal(df, kappas, initialrows = NULL,
   var_crit = 0.9999, verbose = TRUE, rseed = NULL, aupdate1 = 25,
   aupdate2 = 10, bupdate = 10, muAup = 1.2, muAdown = 0.5,
   muBup = 1.2, muBdown = 0.5, SSE_A_conv = 1e-09,
-  SSE_B_conv = 1e-09, save_history = FALSE, nworkers = NULL)
+  SSE_B_conv = 1e-09, save_history = FALSE, nworkers = NULL,
+  stop_varexpl = TRUE)
 }
 \arguments{
 \item{df}{The data frame with dimensions n x d}
@@ -75,6 +76,9 @@ parallel computing (usually it is the double of available physical cores).
 Parallel computation is applied when asked by functions \code{\link{find_furthestsum_points}},\cr 
 \code{\link{find_outmost_partitioned_convexhull_points}} and \cr \code{\link{find_outmost_projected_convexhull_points}}.
 }
+
+\item{stop_varexpl}{If set TRUE, then algorithm stops if varexpl is greater than var_crit}
+
 }
 \value{
 A list with members:
@@ -94,6 +98,9 @@ A list with members:
 \item \code{nBup}, the total number of times when it was SSE<=SSE_old(1+SSE_B_conv) in Bupdate processes. Useful for debugging purposes.
 \item \code{nBdown}, the total number of times when it was SSE>SSE_old(1+SSE_A_conv in Bupdate processes. Useful for debugging purposes.
 \item \code{run_results}, a list of iteration related details: SSE, varexpl, time, B, BY for all iterations done.
+\item \code{Y}, the \eqn{n \times d} matrix of initial data used
+\item \code{data.tables}, the initial data frame if column dimension is at most 3 or a list of frequencies for each variable 
+\item \code{call}, the exact calling used
 }
 }
 \examples{
@@ -126,6 +133,6 @@ names(aa$run_results)
 
 [1] M Morup and LK Hansen, "Archetypal analysis for machine learning and data mining", Neurocomputing (Elsevier, 2012). https://doi.org/10.1016/j.neucom.2011.06.033.
 
-[2] Source: http://www.mortenmorup.dk/index_files/Page327.htm , last accessed 2019-06-07
+[2] Source: http://www.mortenmorup.dk/MMhomepageUpdated_files/Page327.htm , last accessed 2021-11-19
 
 }

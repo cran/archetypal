@@ -1,15 +1,19 @@
-archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhull',
+archetypal <- function(x) UseMethod("archetypal")
+#
+archetypal <- function(df, kappas, initialrows = NULL, method = 'projected_convexhull',
                     nprojected = 2 , npartition = 10, nfurthest = 10,
                     maxiter = 2000, conv_crit = 1E-06, var_crit = 0.9999, 
                     verbose = TRUE, rseed = NULL,
                     aupdate1 = 25, aupdate2 = 10, bupdate = 10, muAup = 1.2, 
                     muAdown = 0.5, muBup = 1.2, muBdown = 0.5,
                     SSE_A_conv = 1e-9, SSE_B_conv = 1e-9,
-                    save_history = FALSE, nworkers = NULL){
+                    save_history = FALSE, nworkers = NULL,
+                    stop_varexpl = TRUE){  
+  # UseMethod("archetypal")
   # External Package usage: Matrix
   # Function that computes the PCHA for a data frame. 
   # It provides full control to the entire set of used parameters.
-  # Based on Morten Morup's code http://www.mortenmorup.dk/index_files/Page327.htm , last accessed 2019-06-07
+  # Based on Morten Morup's code https://www.mortenmorup.dk/MMhomepageUpdated_files/Page327.htm , last accessed 2022-04-07
   #
   ################################
   # Internal update functions are:
@@ -188,6 +192,7 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
       if(nwall<=2){nworkers=2}else{nworkers=nwall-2}
   }
   #
+  #
   ###################################################
   #Check if method='convexhull' is worth applying...
   ###################################################
@@ -208,6 +213,24 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
       }
     }
   }
+  }
+  ###########################################
+  # Cteate data summary for plotting purposes
+  # OR Return data points if dimension <= 3
+  ###########################################
+  #
+  if(dim(df)[2]<=3){
+    data_tables=df
+  }else{
+    data_tables=lapply(1:dim(df)[2], function(i,df){
+      x=as.numeric(df[,i])
+      dt=data.frame(table(x))
+      dt$x=as.numeric(as.character(dt$x))
+      dt$rf=dt$Freq/sum(dt$Freq)
+      colnames(dt)=c(colnames(df)[i],"Freq","rf")
+      head(dt)
+      return(dt)
+    },df)
   }
   #
   ##################
@@ -232,7 +255,8 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
       dd=sqrt(colSums((t(df)-mdf)^2))
       irows=which.min(dd)
       freqstable=data.frame("outmostrows"=irows,"Freq"=1, "FreqPerCent"=1,"CumFreqPerCent"=1)
-      YS=data.frame(df[irows,])
+      YS=df[irows,]
+      #
       if(verbose){
       cat('Next initial solution will be used...','\n')
       print(YS)
@@ -261,12 +285,11 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
         t1=Sys.time()
         projch=find_outmost_projected_convexhull_points(df, kappas = kappas, npr = nprojected)
         t2=Sys.time();t12=round(as.numeric(t2-t1,units="secs"),digits=2) 
-        message(paste0('Time for computing Projected Convex Hull was ',t12," secs"))
+        if(verbose){message(paste0('Time for computing Projected Convex Hull was ',t12," secs"))}
         irows=projch$outmost
         freqstable=projch$outmostfrequency
+        YS=df[irows,]
         #
-        YS=Y[irows,]
-        rownames(YS)=irows
         if(verbose){
           cat('Next projected convex hull initial solution will be used...','\n')
           print(YS)
@@ -276,12 +299,12 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
         t1=Sys.time()
         ch=find_outmost_convexhull_points(df,kappas)
         t2=Sys.time();t12=round(as.numeric(t2-t1,units="secs"),digits=2) 
-        message(paste0('Time for computing Convex Hull was ',t12," secs"))
+        if(verbose){message(paste0('Time for computing Convex Hull was ',t12," secs"))}
         irows=ch$outmost
         freqstable=ch$outmostfrequency
         #
-        YS=Y[irows,]
-        rownames(YS)=irows
+        YS=df[irows,]
+        #
         if(verbose){
           cat('Next convex hull initial solution will be used...','\n')
           print(YS)
@@ -291,12 +314,11 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
         t1=Sys.time()
         parch=find_outmost_partitioned_convexhull_points(df, kappas, np = npartition, nworkers = nworkers)
         t2=Sys.time();t12=round(as.numeric(t2-t1,units="secs"),digits=2) 
-        message(paste0('Time for computing Partitioned Convex Hull was ',t12," secs"))
+        if(verbose){message(paste0('Time for computing Partitioned Convex Hull was ',t12," secs"))}
         irows=parch$outmost
         freqstable=parch$outmostfrequency
+        YS=df[irows,]
         #
-        YS=Y[irows,]
-        rownames(YS)=irows
         if(verbose){
           cat('Next partitioned convex hull initial solution will be used...','\n')
           print(YS)
@@ -312,12 +334,11 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
         t1=Sys.time() 
         fs=find_furthestsum_points(df=df,kappas=kappas,nfurthest=nfurthest,nworkers=nworkers,sortrows = TRUE)
         t2=Sys.time();t12=round(as.numeric(t2-t1,units="secs"),digits=2) 
-        message(paste0('Time for computing ',nfurthest,' Furthest Sum initial solutions was ',t12," secs"))        
+        if(verbose){message(paste0('Time for computing ',nfurthest,' Furthest Sum initial solutions was ',t12," secs"))}
         irows=fs$outmost
         freqstable=fs$outmostfrequency
+        YS=df[irows,]
         #
-        if(kappas!=1){YS=Y[irows,];rownames(YS)=irows}
-        if(kappas==1){YS=data.frame(df[irows,])}
         if(verbose){
           cat('Next furthest fum initial solution will be used...','\n')
           print(YS)
@@ -328,12 +349,11 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
         t1=Sys.time() 
         yy=find_outmost_points(df=df,kappas = kappas)
         t2=Sys.time();t12=round(as.numeric(t2-t1,units="secs"),digits=2) 
-        message(paste0('Time for computing outmost initial solutions for ',dim(df)[1],' rows was ',t12," secs"))        
+        if(verbose){message(paste0('Time for computing outmost initial solutions for ',dim(df)[1],' rows was ',t12," secs"))}
         irows=yy$outmost
         freqstable=yy$outmostfrequency
+        YS=df[irows,]
         #
-        YS=Y[irows,]
-        rownames(YS)=irows
         if(verbose){
           cat('Next outmost initial solution will be used...','\n')
           print(YS)
@@ -347,9 +367,8 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
         #
         irows=sample(NN,kappas)
         freqstable=NULL
+        YS=df[irows,]
         #
-        YS=Y[irows,]
-        rownames(YS)=irows
         if(verbose){
           cat('Next random initial solution will be used...','\n')
           print(YS)
@@ -369,9 +388,8 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
     #
     irows=initialrows
     freqstable=data.frame("outmostrows"=initialrows,"Freq"=1, "FreqPerCent"=1,"CumFreqPerCent"=1)
+    YS=df[irows,]
     #
-    YS=Y[irows,]
-    rownames(YS)=irows
     if(verbose){
       print(irows)
       cat('The initial solution that will be used is','\n')
@@ -391,7 +409,7 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
   irows2=1:length(irows)
   ij=cbind(irows,irows2)
   Bt=sparseMatrix(i=ij[,1], j=ij[,2], x = rep(1,kappas),dims=c(length(NN),kappas))
-  B=t(Bt)
+  B=t(Bt) 
   #Create initial BY from FurthestSum:
   BY=B%*%Y
   # Store it
@@ -453,44 +471,56 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
   #
   # Check if initial method has already found the optimal solution:
   #
-  if(varexplv>var_crit){
-    dSSE=0
-    if(verbose){
-      cat(paste0('Optimal solution was found from FurthestSum because Variance Explained = ',round(varexplv,6),' > ',var_crit),'\n')
-      cat(" ",'\n')
-      cat(dheader,"\n");cat(dline,"\n")
-      cat(sprintf('%5.0f | %8.6f | %12.6e | %10.2e | %7.2e | %7.2e | %5.1f | %5s | %5s \n',iter,varexplv,SSE,abs(dSSE)/SSE,muB,muA,t1-t1,paste0(c(nAup,nAdown),collapse = "_"),paste0(c(nBup,nBdown),collapse = "_")))
-      cat(dline,"\n")
+  if(stop_varexpl){
+    if(varexplv>var_crit){
+      dSSE=0
+      if(verbose){
+        cat(paste0('Optimal solution was found from initial solution because Variance Explained = ',round(varexplv,6),' > ',var_crit),'\n')
+        cat(" ",'\n')
+        cat(dheader,"\n");cat(dline,"\n")
+        cat(sprintf('%5.0f | %8.6f | %12.6e | %10.2e | %7.2e | %7.2e | %5.1f | %5s | %5s \n',iter,varexplv,SSE,abs(dSSE)/SSE,muB,muA,t1-t1,paste0(c(nAup,nAdown),collapse = "_"),paste0(c(nBup,nBdown),collapse = "_")))
+        cat(dline,"\n")
+      }
+      # Sort components according to their importance
+      csums=colSums(A)
+      names(csums)=1:length(csums)
+      isortv=as.integer(names(sort(csums,decreasing = T)))
+      # Sort output rows if necessary
+      if(length(isortv)>1){
+        A=as.matrix(A[,isortv])
+        B=as.matrix(B[isortv,])
+        BY=as.matrix(BY[isortv,]) 
+      }else{
+        A=as.matrix(A)
+        B=as.matrix(B)
+        BY=as.matrix(BY)
+      }
+      if(verbose){
+        cat(" ",'\n')
+        cat(" BY = ",'\n')
+        print(BY)
+        cat(" ",'\n')
+      }
+      #
+      # Set proper run results 
+      #
+      if(save_history ){
+        run_results=list("SSE"=SSE,"varexpl"=varexplv,"time"=0,"Blist"=list(B),"archslist"=list(data.frame(as.matrix(BY))))
+      }else{
+        run_results=NULL
+      }
+      #
+      T2=Sys.time();T12=round(as.numeric(T2-T1,units="secs"),digits=2) #print overall function execution time 
+      # Return list of results
+      rescall <- match.call()
+      res <- list("BY"=BY,"A"=A,'B'=B,"SSE"=SSE,"varexpl"=varexplv,
+                  "initialsolution"=initialsolution,"freqstable"=freqstable,
+                  "iterations"=iter,"time"=T12,"converges"=TRUE,
+                  "nAup"=nAup,"nAdown"=nAdown,"nBup"=0,"nBdown"=0,
+                  "run_results"=run_results,"Y"=Y,"data_tables"=data_tables,"call"=rescall)
+      class(res) <- "archetypal"
+      return(res)
     }
-    # Sort components according to their importance
-    csums=colSums(A)
-    names(csums)=1:length(csums)
-    isortv=as.integer(names(sort(csums,decreasing = T)))
-    A=as.matrix(A[,isortv])
-    B=as.matrix(B[isortv,])
-    BY=as.matrix(BY[isortv,])
-    if(verbose){
-      cat(" ",'\n')
-      cat(" BY = ",'\n')
-      print(BY)
-      cat(" ",'\n')
-    }
-    #
-    # Set proper run results 
-    #
-    if(save_history ){
-      run_results=list("SSE"=SSE,"varexpl"=varexplv,"time"=0,"Blist"=list(B),"archslist"=list(data.frame(as.matrix(BY))))
-    }else{
-      run_results=NULL
-    }
-    #
-    T2=Sys.time();T12=round(as.numeric(T2-T1,units="secs"),digits=2) #print overall function execution time 
-    # Return list of results
-    return(list("BY"=BY,"A"=A,'B'=B,"SSE"=SSE,"varexpl"=varexplv,
-                "initialsolution"=initialsolution,"freqstable"=freqstable,
-                "iterations"=iter,"time"=T12,"converges"=TRUE,
-                "nAup"=nAup,"nAdown"=nAdown,"nBup"=0,"nBdown"=0,
-                "run_results"=run_results))
   }
   #
   ##################
@@ -510,7 +540,14 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
   }
   #  
   if(verbose){cat(dline,"\n");cat(dheader,"\n");cat(dline,"\n")}
-  while(abs(dSSE)>=conv_crit*abs(SSE) & iter<maxiter & varexplv<var_crit){
+  # Define run condition
+  if(stop_varexpl){
+    run_algorithm = (abs(dSSE)>=conv_crit*abs(SSE) & iter<maxiter & varexplv<var_crit)
+  }else{
+    run_algorithm = (abs(dSSE)>=conv_crit*abs(SSE) & iter<maxiter)
+  }
+  #
+  while(run_algorithm){
     t1=Sys.time() #count iteration time
     iter=iter+1
     SSEold=SSE
@@ -557,6 +594,14 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
     #
     varexplv=(SST-SSE)/SST
     #
+    # Re - Define run condition
+    #
+    if(stop_varexpl){
+      run_algorithm = (abs(dSSE)>=conv_crit*abs(SSE) & iter<maxiter & varexplv<var_crit)
+    }else{
+      run_algorithm = (abs(dSSE)>=conv_crit*abs(SSE) & iter<maxiter)
+    }
+    #
     # Store history of run results if asked
     #
     if(save_history ){
@@ -579,9 +624,15 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
   names(csums)=1:length(csums)
   isort=as.integer(names(sort(csums,decreasing = T)))
   A=as.matrix(A[,isort])
-  #
-  if(kappas==1){BY=t(as.matrix(BY[isort,]));B=as.matrix(B)}else{BY=as.matrix(BY[isort,]);B=as.matrix(B[isort,])}
-  #
+  ####>>>>>>>>>>
+  if(kappas==1){
+    BY=t(as.matrix(BY[isort,]))
+    B=as.matrix(B)
+  }else{
+      BY=as.matrix(BY[isort,])
+      B=as.matrix(B[isort,])
+  }
+  ####<<<<<<<<<<
   if(verbose){
     cat(" ",'\n')
     cat(" BY = ",'\n')
@@ -597,16 +648,20 @@ archetypal=function(df, kappas, initialrows = NULL, method = 'projected_convexhu
   # Create list of run_results if asked so, otherwise leave it null
   if(save_history ){run_results=list("SSE"=vsse,"varexpl"=vvarexpl,"time"=vtime,"Blist"=Blist,"archslist"=archslist)}
   #
+  #
   ##########
   # Return:
   ##########
   #
   T2=Sys.time();T12=round(as.numeric(T2-T1,units="secs"),digits=2) #compute overall function execution time
   # Return list of results
-  return(list("BY"=BY,"A"=A,'B'=B,"SSE"=SSE,"varexpl"=varexplv,
+  rescall <- match.call()
+  res <- list("BY"=BY,"A"=A,'B'=B,"SSE"=SSE,"varexpl"=varexplv,
               "initialsolution"=initialsolution,"freqstable"=freqstable,
               "iterations"=iter,"time"=T12,"converges"=iflag,
               "nAup"=nAup,"nAdown"=nAdown,"nBup"=nBup,"nBdown"=nBdown,
-              "run_results"=run_results))
+              "run_results"=run_results,"Y"=Y,"data_tables"=data_tables,"call"=rescall)
+  class(res) <- "archetypal"
+  return(res)
   # 
 }
