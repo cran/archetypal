@@ -24,7 +24,7 @@ Other arguments (ignored)
 }
 }
 \details{
-If the column dimension of the archetypes is less or ewqual to 3, then a normal plot is presented.\
+If the column dimension of the archetypes is less or ewqual to 3, then a normal plot is presented. \cr
 Otherwise, a "spike-spider" plot is crerated, see \code{\link{plot.archetypal}} for details.
 }
 \seealso{

@@ -1,7 +1,7 @@
 study_AAconvergence <- function(x, ...) UseMethod("study_AAconvergence")
 #
 study_AAconvergence=function(df, kappas, method = "projected_convexhull", rseed = NULL,
-                             chvertices = NULL, plot = TRUE, ...){  
+                             chvertices = NULL, plot = FALSE, ...){  
   # Run AA under default or chosen parameters (...)
   aa=archetypal(df = df, kappas = kappas, method = method, save_history = TRUE, rseed = rseed, ...)
   # Store results

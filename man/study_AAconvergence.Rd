@@ -17,7 +17,7 @@ Finally a multi-plot panel is being created if asked.
 }
 \usage{
 study_AAconvergence(df, kappas, method = "projected_convexhull", 
-                    rseed = NULL, chvertices = NULL, plot = TRUE, ...)
+                    rseed = NULL, chvertices = NULL, plot = FALSE, ...)
 }
 \arguments{
 \item{df}{The data frame with dimensions n x d}
@@ -80,31 +80,31 @@ data(wd2)
 ch = chull(wd2)
 sa = study_AAconvergence(df = wd2, kappas = 3, rseed = 20191119,
                          verbose = FALSE, chvertices = ch)
-names(sa)
-# [1] "SSE"                      "SSE_lowess"               "UIK_lowess"              
-# [4] "aitken"                   "order_estimation"         "rate_estimation"         
-# [7] "significance_estimations" "used_on_convexhull"       "aligned_archetypes"      
-# [10] "solution_used"        
-# sse=sa$SSE
-# ssel=sa$SSE_lowess
-sa$UIK_lowess
-# [1] 36
-# sa$aitken
-sa$order_estimation
-# [1] 1.007674
-sa$rate_estimation
-# [1] 0.8277613
-sa$significance_estimations
-#        estimation   std.error   t.value      p.value
-# log(c) -0.1890305 0.014658947 -12.89523 5.189172e-12
-# p       1.0076743 0.001616482 623.37475 3.951042e-50
-# sa$used_on_convexhull
-# sa$aligned_archetypes
-data.frame(sa$solution_used[c("SSE","varexpl","iterations","time")])
-#        SSE   varexpl iterations time
-# 1 1.717538 0.9993186         62 8.39
-# Close plot device:
-dev.off()
+	names(sa)
+	# [1] "SSE"                      "SSE_lowess"               "UIK_lowess"              
+	# [4] "aitken"                   "order_estimation"         "rate_estimation"         
+	# [7] "significance_estimations" "used_on_convexhull"       "aligned_archetypes"      
+	# [10] "solution_used"        
+	# sse=sa$SSE
+	# ssel=sa$SSE_lowess
+	sa$UIK_lowess
+	# [1] 36
+	# sa$aitken
+	sa$order_estimation
+	# [1] 1.007674
+	sa$rate_estimation
+	# [1] 0.8277613
+	sa$significance_estimations
+	#        estimation   std.error   t.value      p.value
+	# log(c) -0.1890305 0.014658947 -12.89523 5.189172e-12
+	# p       1.0076743 0.001616482 623.37475 3.951042e-50
+	# sa$used_on_convexhull
+	# sa$aligned_archetypes
+	data.frame(sa$solution_used[c("SSE","varexpl","iterations","time")])
+	#        SSE   varexpl iterations time
+	# 1 1.717538 0.9993186         62 8.39
+	# Plot class "study_AAconvergence"
+	plot(sa)
 }
 }
 }

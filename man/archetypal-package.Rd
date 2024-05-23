@@ -98,7 +98,7 @@ Other contributors:
 \itemize{
   \item David Midgley \email{david.midgley@insead.edu} [contributor]
   \item Sunil Venaik \email{s.venaik@business.uq.edu.au} [contributor]
-  \item INSEAD Fontainebleau France [funder, copyright holder]
+  \item INSEAD Fontainebleau France [funder]
 }
 }
 \references{
@@ -106,7 +106,7 @@ Other contributors:
 [1] M Morup and LK Hansen, "Archetypal analysis for machine learning and data mining", Neurocomputing (Elsevier, 2012).
  https://doi.org/10.1016/j.neucom.2011.06.033.
 
-[2] Source: https://www.mortenmorup.dk/MMhomepageUpdated_files/Page327.htm , last accessed 2021-09-23
+[2] Source: https://mortenmorup.dk/?page_id=2 , last accessed 2024-03-09
 
 [3] Christopoulos, Demetris T., Introducing Unit Invariant Knee (UIK) As an Objective Choice for
  Elbow Point in Multivariate Data Analysis Techniques (March 1, 2016). 

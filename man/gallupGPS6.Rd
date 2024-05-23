@@ -28,7 +28,14 @@ Data processing:
   }
 }
 \source{
-Individual data set was downloaded from \url{https://www.briq-institute.org/global-preferences/downloads}, last accessed 2019-12-17.
+Individual data set was downloaded from \url{https://www.gallup.com/analytics/318923/world-poll-public-datasets.aspx}, last accessed 2024-03-09.
+}
+\note{
+\enumerate{
+  \item The data was provided under a Creative Commons NonCommerical ShareAlike 4.0 license:  
+  \url{https://creativecommons.org/licenses/by-nc-sa/4.0/} 
+  \item Other variables and identifiers from the original data have been dropped
+  }
 }
 \references{
 [1] Falk, A., Becker, A., Dohmen, T., Enke, B., Huffman, D., & Sunde, U. (2018). Global evidence on economic preferences. Quarterly Journal of Economics, 133 (4), 1645-1692.\cr

@@ -28,23 +28,23 @@ A list with members:
 }
 \examples{
 {\donttest{
-# Load data "wd2"
-data("wd2")
-df = wd2
-# Run AA:
-aa = archetypal(df = df, kappas = 3, verbose = FALSE)
-# Check B matrix:
-B = aa$B
-yy = check_Bmatrix(B, verbose = TRUE)
-yy$used_rows
-yy$used_weights
-yy$leading_rows
-yy$leading_weights
-# Check if used rows lie on ConvexHull
-ch = chull(df)
-yy = check_Bmatrix(B, chvertices = ch, verbose = FALSE)
-yy$used_on_convexhull
-#
+	# Load data "wd2"
+	data("wd2")
+	df = wd2
+	# Run AA:
+	aa = archetypal(df = df, kappas = 3, verbose = FALSE)
+	# Check B matrix:
+	B = aa$B
+	yy = check_Bmatrix(B, verbose = TRUE)
+	yy$used_rows
+	yy$used_weights
+	yy$leading_rows
+	yy$leading_weights
+	# Check if used rows lie on ConvexHull
+	ch = chull(df)
+	yy = check_Bmatrix(B, chvertices = ch, verbose = FALSE)
+	yy$used_on_convexhull
+	#
 }
 }
 }

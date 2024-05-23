@@ -33,7 +33,7 @@ ch=convhulln(as.matrix(wd2),'Fx')
 chlist=as.list(ch)
 chvertices = unique(do.call(c,chlist))
 aa=archetypal(wd2, 3)
-out=kappa_tools(aa ,  wd2, chvertices, verbose = T )
+out=kappa_tools(aa ,  df = wd2, numBins = 100, chvertices, verbose = T )
 plot(out)
 }
 }

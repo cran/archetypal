@@ -9,7 +9,7 @@ summary.archetypal=function(object,...){
   cat("Archetypes:","\n")
   cat("\n") 
   print(data.frame(BY))
-  basics=data.frame("SSE"=object$SSE, "VarianceExplained"=object$varexpl, "Convergence"= object$converges, "Iterations"=object$iterations, "EllapsedTime"=object$time)
+  basics=data.frame("SSE"=object$SSE, "VarianceExplained"=object$varexpl, "Convergence"= object$converges, "Iterations"=object$iterations, "ElapsedTime"=object$time)
   cat("\n") 
   cat("Run details:","\n")
   cat("\n") 

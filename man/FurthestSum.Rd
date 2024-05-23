@@ -27,7 +27,7 @@ df = wd3
 FurthestSum(df, kappas = 4, irows = sample(1:dim(df)[1],1))
 }
 \references{
-[1] Source: https://www.mortenmorup.dk/MMhomepageUpdated_files/Page327.htm , last accessed 2021-09-23
+[1] Source: https://mortenmorup.dk/?page_id=2 , last accessed 2024-03-09
 
 [2] D.S. Hochbaum, D.B. Shmoys, A best possible heuristic for the k-center problem, \cr
    Math. Oper. Res. 10(2) (1985) 180-184. https://doi.org/10.1287/moor.10.2.180

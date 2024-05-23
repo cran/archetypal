@@ -1,5 +1,5 @@
 Package: archetypal
-Version: 1.3.0
+Version: 1.3.1
 Title: Finds the Archetypal Analysis of a Data Frame
 Description: Performs archetypal analysis by using Principal Convex Hull Analysis 
     under a full control of all algorithmic parameters. 
@@ -18,7 +18,7 @@ Authors@R: c(
              person("Demetris", "Christopoulos", email = "dchristop@econ.uoa.gr", role = c("aut", "cre")),
              person("David", "Midgley", email = "david.midgley@insead.edu", role = c("ctb")),
              person("Sunil", "Venaik", email = "s.venaik@business.uq.edu.au", role = c("ctb")),
-             person("INSEAD Fontainebleau France", role = c("fnd", "cph"))
+             person("INSEAD Fontainebleau France", role = c("fnd"))
              )  
 Maintainer: Demetris Christopoulos <dchristop@econ.uoa.gr>
 Depends: R (>= 3.1.0)
@@ -31,10 +31,10 @@ Encoding: UTF-8
 LazyData: true
 ByteCompile: true
 NeedsCompilation: no
-Packaged: 2022-07-04 10:21:26 UTC; demetris_ws
 Author: Demetris Christopoulos [aut, cre],
   David Midgley [ctb],
   Sunil Venaik [ctb],
-  INSEAD Fontainebleau France [fnd, cph]
+  INSEAD Fontainebleau France [fnd]
+Packaged: 2024-05-23 15:07:49 UTC; demetris_ws
 Repository: CRAN
-Date/Publication: 2022-07-04 12:30:02 UTC
+Date/Publication: 2024-05-23 16:30:03 UTC

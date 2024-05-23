@@ -117,7 +117,7 @@ pp3=lapply(yy4$used_rows,function(x,df){
   if(length(x)!=1){segments3D(x0=dh$x[1],y0=dh$y[1],z0=dh$z[1],x1=dh$x[2],y1=dh$y[2],z1=dh$z[2],col='red',add=TRUE,lwd=3) }
   },df)
 
-## ---- ch3,echo=TRUE-----------------------------------------------------------
+## ----ch3,echo=TRUE------------------------------------------------------------
 ch=unique(do.call(c,as.list(geometry::convhulln(df,'Fx'))))
 ch
 

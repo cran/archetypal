@@ -131,19 +131,13 @@ plot_archs=function(archs, data = NULL, show_data = FALSE, ...){
       scatter3D(archs[,1],archs[,2],archs[,3], phi = 0, theta = -40, bty = "g",colvar = NULL,
                 pch = 20, cex = 2., ticktype = "detailed",col=colarchs,add = F)
     }
-    # scatter3D(df[,1],df[,2], df[,3], phi = 0, theta = -40, bty = "g",colvar = NULL,
-    #           pch = 19, cex = 0.5, ticktype = "detailed",col=colarchs)
-    # pcg=0.75
-    # colpol = rgb(pcg,pcg,pcg,0.25)
-    # scatter3D(archs[,1],archs[,2],archs[,3], phi = 0, theta = -40, bty = "g",colvar = NULL,
-    #           pch = 20, cex = 2., ticktype = "detailed",col=colarchs,add = T)
     text3D(x=archs[,1], y=archs[,2], z = archs[,3], paste0("A",1:kappas), adj = 1, font = 2, cex = 1.5, add = TRUE)
-    if(kappas>1){
-      lines3D(charchs[,1],charchs[,2],charchs[,3],add=TRUE,colvar = NULL,lty=2,col=colarchs)
-      rends=c(1,dim(charchs)[1])
-      lines3D(charchs[rends,1],charchs[rends,2],charchs[rends,3],add=TRUE,colvar = NULL,lty=2,col=colarchs)
-      polygon3D(charchs[,1], charchs[,2], charchs[,3], add=TRUE, colvar = NULL, col=colpol)
-    }
+    # if(kappas>1){
+      # lines3D(charchs[,1],charchs[,2],charchs[,3],add=TRUE,colvar = NULL,lty=2,col=colarchs)
+      # rends=c(1,dim(charchs)[1])
+      # lines3D(charchs[rends,1],charchs[rends,2],charchs[rends,3],add=TRUE,colvar = NULL,lty=2,col=colarchs)
+      # polygon3D(charchs[,1], charchs[,2], charchs[,3], add=TRUE, colvar = NULL, col=colpol)
+    # }
     par("mar"=parmarold)
     par("oma"=paromaold)
     #

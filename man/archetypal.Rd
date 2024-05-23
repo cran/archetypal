@@ -105,27 +105,27 @@ A list with members:
 }
 \examples{
 {\donttest{
-# Create a small 2D data set from 3 corner-points:
-p1 = c(1,2);p2 = c(3,5);p3 = c(7,3) 
-dp = rbind(p1,p2,p3);dp
-set.seed(916070)
-pts = t(sapply(1:20, function(i,dp){
-  cc = runif(3)
-  cc = cc/sum(cc)
-  colSums(dp*cc)
-},dp))
-df = data.frame(pts)
-colnames(df) = c("x","y")
-# Run AA:
-aa = archetypal(df = df, kappas  =  3, verbose = FALSE, save_history  =  TRUE)
-# Archetypes:
-archs = data.frame(aa$BY)
-archs
-# See main results:
-names(aa)
-aa[c("SSE","varexpl","iterations","time")]
-# See history of iterations:
-names(aa$run_results)
+	# Create a small 2D data set from 3 corner-points:
+	p1 = c(1,2);p2 = c(3,5);p3 = c(7,3)
+	dp = rbind(p1,p2,p3);dp
+	set.seed(916070)
+	pts = t(sapply(1:20, function(i,dp){
+	  cc = runif(3)
+	  cc = cc/sum(cc)
+	  colSums(dp*cc)
+	},dp))
+	df = data.frame(pts)
+	colnames(df) = c("x","y")
+	# Run AA:
+	aa = archetypal(df = df, kappas  =  3, verbose = FALSE, save_history  =  TRUE)
+	# Print class "archetypal":
+	print(aa)
+	# Summary class "archetypal":
+	summary(aa)
+	# Plot class "archetypal":
+	plot(aa)
+	# See history of iterations:
+	names(aa$run_results)	
 }
 }
 }
@@ -133,6 +133,6 @@ names(aa$run_results)
 
 [1] M Morup and LK Hansen, "Archetypal analysis for machine learning and data mining", Neurocomputing (Elsevier, 2012). https://doi.org/10.1016/j.neucom.2011.06.033.
 
-[2] Source: http://www.mortenmorup.dk/MMhomepageUpdated_files/Page327.htm , last accessed 2021-11-19
+[2] Source: https://mortenmorup.dk/?page_id=2 , last accessed 2024-03-09
 
 }

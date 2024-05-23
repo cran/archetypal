@@ -38,7 +38,7 @@ A list with members:
   \item iter_terminal, iteration after which rows closer to archetypes do not change any more
   \item rows_closer, the rows closer to archetypes by means of Euclidean distance and are fixed
   after \code{iter_terminal} iteration
-  \item rows_closer_matrix, a matrix with ]code{npoints} rows  which are closer to each archetype
+  \item rows_closer_matrix, a matrix with \code{npoints} rows  which are closer to each archetype
   \item solution_used, the AA output that has been used. Some times useful, especially for big data.
 }
 }

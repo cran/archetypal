@@ -13,7 +13,7 @@ archetypal <- function(df, kappas, initialrows = NULL, method = 'projected_conve
   # External Package usage: Matrix
   # Function that computes the PCHA for a data frame. 
   # It provides full control to the entire set of used parameters.
-  # Based on Morten Morup's code https://www.mortenmorup.dk/MMhomepageUpdated_files/Page327.htm , last accessed 2022-04-07
+  # Based on Morten Morup's code https://mortenmorup.dk/?page_id=2 , last accessed 2024-03-09
   #
   ################################
   # Internal update functions are:

@@ -68,14 +68,15 @@ Demetris T. Christopoulos, David F. Midgley (creator of BIC and adjBIC procedure
 }
 \examples{
 {\donttest{
-## Use the sample data "wd2"
-data(wd2)
-ch=convhulln(as.matrix(wd2),'Fx')
-chlist=as.list(ch)
-chvertices = unique(do.call(c,chlist))
-aa=archetypal(wd2, 3)
-out=kappa_tools(aa ,  wd2, chvertices, verbose = T )
-out
+	## Use the sample data "wd2"
+	data(wd2)
+	require("geometry")
+	ch=convhulln(as.matrix(wd2),'Fx')
+	chlist=as.list(ch)
+	chvertices = unique(do.call(c,chlist))
+	aa=archetypal(wd2, 3)
+	out=kappa_tools(aa ,  df = wd2, numBins = 100, chvertices, verbose = T )
+	out
 }
 }
 }

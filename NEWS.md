@@ -1,4 +1,11 @@
-# archetypal 1.3.0 (2022-07-04) - major update
+# archetypal 1.3.1 (2024-05-19) - minor update
+
+## Improvements
+
+* `plot_archs()` remove option for creating polygon in 3D
+* `plot.archetypal()` remove option for creating polygon in 3D
+
+
 
 ## New S3 classes
 
